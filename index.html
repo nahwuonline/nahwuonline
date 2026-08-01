@@ -15,18 +15,13 @@
   <style>
     :root {
       --primary: #1e293b;
-      --primary-accent: #0f172a;
       --brand: #2563eb;
-      --bg: #f8fafc;
+      --bg: #f1f5f9;
       --card-bg: #ffffff;
       --text-main: #334155;
       --text-muted: #64748b;
       --border: #e2e8f0;
       --correct: #10b981;
-      --wrong: #ef4444;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
       --radius: 12px;
     }
 
@@ -36,10 +31,10 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg);
       color: var(--text-main);
+      padding: 1.5rem 0.75rem;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
-      padding: 1rem 0.5rem;
-      min-height: 100vh;
     }
 
     .container {
@@ -47,68 +42,44 @@
       max-width: 600px;
       background: var(--card-bg);
       border-radius: var(--radius);
-      padding: 1.25rem 1rem;
-      box-shadow: var(--shadow-lg);
+      padding: 1.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
       border: 1px solid var(--border);
     }
 
     /* HEADER */
     .header {
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
     .header h1 {
       font-size: 1.5rem;
       font-weight: 800;
       color: var(--primary);
-      letter-spacing: 0.5px;
     }
     .header p {
       font-size: 0.8rem;
       color: var(--text-muted);
-      margin-top: 2px;
     }
 
     /* SELECTOR & PROGRES */
-    .controls {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-bottom: 1.25rem;
-    }
-    .select-wrapper {
-      position: relative;
-    }
     select {
       width: 100%;
-      padding: 0.6rem 0.8rem;
+      padding: 0.75rem;
       font-size: 0.85rem;
       font-weight: 600;
-      color: var(--primary);
-      background: #f1f5f9;
+      background: #f8fafc;
       border: 1px solid var(--border);
       border-radius: 8px;
-      appearance: none;
-      outline: none;
-      cursor: pointer;
-    }
-    .select-wrapper::after {
-      content: '▼';
-      font-size: 0.6rem;
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      pointer-events: none;
-      color: var(--text-muted);
+      margin-bottom: 1rem;
     }
 
     .progress-bar-container {
-      background: #f1f5f9;
-      border-radius: 20px;
+      background: #e2e8f0;
+      border-radius: 10px;
       height: 8px;
       overflow: hidden;
-      margin-top: 4px;
+      margin-bottom: 0.5rem;
     }
     .progress-bar {
       height: 100%;
@@ -121,8 +92,8 @@
       justify-content: space-between;
       font-size: 0.75rem;
       color: var(--text-muted);
-      margin-top: 4px;
       font-weight: 600;
+      margin-bottom: 1.5rem;
     }
 
     /* TEKS KITAB AREA */
@@ -130,332 +101,81 @@
       background: #fafafa;
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1.25rem 0.75rem;
+      padding: 1rem;
       direction: rtl;
-      text-align: justify;
-      line-height: 2.8;
-      margin-bottom: 1.25rem;
+      line-height: 2.5;
     }
 
     /* ARABIC WORD BADGE */
     .word {
       font-family: 'Amiri', serif;
-      font-size: 1.5rem;
-      padding: 0.1rem 0.4rem;
-      margin: 0.15rem 0.1rem;
-      display: inline-block;
+      font-size: 1.4rem;
+      padding: 0 0.25rem;
       cursor: pointer;
-      border-radius: 6px;
-      border: 1px solid transparent;
-      background: #ffffff;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-      position: relative;
-      transition: all 0.15s ease;
-      user-select: none;
+      border-radius: 4px;
+      transition: background 0.2s;
     }
     .word:hover {
-      border-color: var(--brand);
       background: #eff6ff;
-    }
-    .word.solved {
-      background: #ecfdf5;
-      color: #065f46;
-      border-color: #a7f3d0;
-    }
-
-    /* TOOLTIP ARTI */
-    .word-meaning {
-      position: absolute;
-      bottom: -22px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--primary);
-      color: #fff;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.65rem;
-      padding: 1px 6px;
-      border-radius: 4px;
-      white-space: nowrap;
-      pointer-events: none;
-      z-index: 10;
-      box-shadow: var(--shadow-sm);
-      direction: ltr;
-    }
-    .word-meaning::before {
-      content: '';
-      position: absolute;
-      top: -4px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-width: 0 4px 4px 4px;
-      border-style: solid;
-      border-color: transparent transparent var(--primary) transparent;
-    }
-
-    /* MODAL POPUP */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      z-index: 1000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
-    }
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .modal {
-      background: #fff;
-      border-radius: var(--radius);
-      width: 100%;
-      max-width: 420px;
-      padding: 1.25rem;
-      box-shadow: var(--shadow-lg);
-      transform: translateY(10px);
-      transition: transform 0.2s ease;
-    }
-    .modal-overlay.active .modal {
-      transform: translateY(0);
-    }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    .modal-title {
-      font-size: 1.25rem;
-      font-family: 'Amiri', serif;
-      font-weight: bold;
-      color: var(--primary);
-    }
-    .close-btn {
-      background: none;
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      color: var(--text-muted);
-    }
-
-    .options-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
-      margin-top: 0.75rem;
-    }
-    .option-btn {
-      padding: 0.6rem 0.8rem;
-      border: 1px solid var(--border);
-      background: #f8fafc;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-main);
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.15s ease;
-    }
-    .option-btn:hover {
-      background: #f1f5f9;
-      border-color: #cbd5e1;
     }
 
     /* FOOTER */
-    .footer-action {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 1rem;
-    }
     .reset-btn {
-      background: #fef2f2;
-      color: var(--wrong);
-      border: 1px solid #fecaca;
-      padding: 0.4rem 0.75rem;
-      border-radius: 6px;
+      margin-top: 1.5rem;
+      background: none;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
       font-size: 0.75rem;
-      font-weight: 600;
       cursor: pointer;
     }
     .reset-btn:hover {
-      background: #fee2e2;
+      background: #f1f5f9;
+      color: #ef4444;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- HEADER -->
     <div class="header">
       <h1>NAHWU ONLINE</h1>
       <p>Platform Belajar dan Latihan Baca Kitab Salaf Interaktif</p>
     </div>
 
-    <!-- CONTROLS & PROGRES -->
-    <div class="controls">
-      <div class="select-wrapper">
-        <select id="chapter-select" onchange="changeChapter(this.value)">
-          <option value="1">📘 Pasal 1: Jenis & Pembagian Air (Anwa'ul Miyah)</option>
-          <option value="2">📘 Pasal 2: Sifat & Hukum Air</option>
-          <option value="3">📘 Pasal 3: Suci & Najis</option>
-          <option value="4">📘 Pasal 4: Wadah & Bejana</option>
-          <option value="5">📘 Pasal 5: Siwak & Sunnah Wudhu</option>
-          <option value="6">📘 Pasal 6: Rukun & Fardhu Wudhu</option>
-        </select>
-      </div>
+    <select id="chapter-select">
+      <option value="1">📘 Pasal 1: Jenis & Pembagian Air (Anwa'ul Miyah)</option>
+    </select>
 
-      <div>
-        <div class="progress-bar-container">
-          <div class="progress-bar" id="progress-bar"></div>
-        </div>
-        <div class="progress-text">
-          <span>Progres Hafalan & I'rab</span>
-          <span id="progress-text">0% (0/0 Kata)</span>
-        </div>
+    <div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="progress-text">
+        <span>Progres Hafalan & I'rab</span>
+        <span id="progress-text">0% (0/0 Kata)</span>
       </div>
     </div>
 
     <!-- AREA TEKS KITAB -->
     <div class="text-box" id="text-container">
-      <!-- Kata-kata arab akan di-render otomatis via JS -->
+      <span class="word">كِتَابُ</span>
+      <span class="word">الطَّهَارَةِ</span>
+      <span class="word">،</span>
+      <span class="word">أَنْوَاعُ</span>
+      <span class="word">الْمِيَاهِ</span>
+      <span class="word">الَّتِي</span>
+      <span class="word">يَجُوزُ</span>
+      <span class="word">بِهَا</span>
+      <span class="word">التَّطْهِيرُ</span>
+      <span class="word">سَبْعُ</span>
+      <span class="word">مِيَاهٍ</span>
+      <span class="word">.</span>
     </div>
 
-    <!-- FOOTER ACTION -->
-    <div class="footer-action">
-      <button class="reset-btn" onclick="resetProgress()">🗑️ Reset Semua</button>
-    </div>
+    <button class="reset-btn">🗑️ Reset Semua</button>
   </div>
 
-  <!-- MODAL SOAL I'RAB -->
-  <div class="modal-overlay" id="quiz-modal">
-    <div class="modal">
-      <div class="modal-header">
-        <div class="modal-title" id="modal-word-title">الْمِيَاهُ</div>
-        <button class="close-btn" onclick="closeModal()">✕</button>
-      </div>
-      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Pilih kedudukan / i'rab yang tepat:</p>
-      <div class="options-grid" id="modal-options">
-        <!-- Opsi jawaban di-render via JS -->
-      </div>
-    </div>
-  </div>
-
-  <!-- LOAD SCRIPT BAB -->
-  <script src="bab-1.js"></script>
-  <script src="bab-2.js"></script>
-  <script src="bab-3.js"></script>
-  <script src="bab-4.js"></script>
-  <script src="bab-5.js"></script>
-  <script src="bab-6.js"></script>
-
-  <script>
-    // SCRIPT UTAMA PENGATUR INTERAKSI
-    let currentBab = 1;
-    let babData = {};
-
-    window.onload = function() {
-      loadBab(1);
-    };
-
-    function loadBab(babNum) {
-      currentBab = babNum;
-      // Memanggil data dari file bab-X.js
-      if (window['bab' + babNum + 'Data']) {
-        babData = window['bab' + babNum + 'Data'];
-        renderText();
-        updateProgress();
-      }
-    }
-
-    function changeChapter(val) {
-      loadBab(parseInt(val));
-    }
-
-    function renderText() {
-      const container = document.getElementById('text-container');
-      container.innerHTML = '';
-
-      if (!babData.words) return;
-
-      babData.words.forEach((item, index) => {
-        const wordSpan = document.createElement('span');
-        wordSpan.className = 'word' + (item.solved ? ' solved' : '');
-        wordSpan.innerText = item.text;
-        wordSpan.onclick = () => openQuiz(index);
-
-        if (item.meaning) {
-          const meaningSpan = document.createElement('span');
-          meaningSpan.className = 'word-meaning';
-          meaningSpan.innerText = item.meaning;
-          wordSpan.appendChild(meaningSpan);
-        }
-
-        container.appendChild(wordSpan);
-      });
-    }
-
-    function openQuiz(index) {
-      const item = babData.words[index];
-      if (!item.options) return;
-
-      document.getElementById('modal-word-title').innerText = item.text;
-      const optionsContainer = document.getElementById('modal-options');
-      optionsContainer.innerHTML = '';
-
-      item.options.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        btn.innerText = opt.text;
-        btn.onclick = () => checkAnswer(index, opt.isCorrect);
-        optionsContainer.appendChild(btn);
-      });
-
-      document.getElementById('quiz-modal').classList.add('active');
-    }
-
-    function closeModal() {
-      document.getElementById('quiz-modal').classList.remove('active');
-    }
-
-    function checkAnswer(index, isCorrect) {
-      if (isCorrect) {
-        babData.words[index].solved = true;
-        closeModal();
-        renderText();
-        updateProgress();
-      } else {
-        alert('Jawaban belum tepat, coba lagi!');
-      }
-    }
-
-    function updateProgress() {
-      if (!babData.words) return;
-      const total = babData.words.length;
-      const solved = babData.words.filter(w => w.solved).length;
-      const percent = Math.round((solved / total) * 100) || 0;
-
-      document.getElementById('progress-bar').style.width = percent + '%';
-      document.getElementById('progress-text').innerText = `${percent}% (${solved}/${total} Kata)`;
-    }
-
-    function resetProgress() {
-      if (confirm('Apakah Anda yakin ingin mereset semua progres hafalan/i\'rab?')) {
-        if (babData.words) {
-          babData.words.forEach(w => w.solved = false);
-          renderText();
-          updateProgress();
-        }
-      }
-    }
-  </script>
 </body>
 </html>
